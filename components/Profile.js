@@ -88,7 +88,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 14,
     marginBottom: Platform.OS === 'ios' ? 120 : 50,
     marginTop: Platform.OS === 'ios' ? -40 : 0,
-    borderRadius: 15,
+    borderRadius: 35,
     elevation: 8,
   },
   audioText: {
