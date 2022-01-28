@@ -1,5 +1,5 @@
 import AppLoading from 'expo-app-loading';
-import { StyleSheet, Text, View, StatusBar, Image, Button, ImageBackground } from 'react-native';
+import { StyleSheet, Text, View, StatusBar, Image, Button, ImageBackground, Platform, Dimensions } from 'react-native';
 import { useFonts } from 'expo-font';
 import { Themes, Icons, Profiles } from './assets/Themes';
 
@@ -15,6 +15,8 @@ export default function App() {
 
   /* insert your code here */
 
+  const { width, height } = Dimensions.get('window')
+
   return (
     <View style={styles.container}>
       <View style={styles.navbar}>
@@ -26,7 +28,13 @@ export default function App() {
       </View>
       <View style={styles.profiles}>
         <View style={styles.profileImageShadow}>
-            <ImageBackground source={Profiles.mtl.image} style={styles.profileImage}/>
+          <ImageBackground source={Profiles.mtl.image} style={styles.profileImage}/>
+          <View style={styles.profileNameView}>
+            <Text style={styles.profileName}>{Profiles.mtl.name}</Text>
+          </View>
+          <View style={styles.profileCaptionView}>
+            <Text style={styles.profileCaption}>{Profiles.mtl.caption}</Text>
+          </View>
         </View>
         <View style={styles.audioShadow}>
           
@@ -43,9 +51,9 @@ export default function App() {
       </View>
 
       <View style={styles.bottomButtons}> 
-        <Text>
+        {/* <Text>
           Hi
-        </Text>
+        </Text> */}
       </View>      
     </View>
   );
@@ -53,32 +61,32 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    display: 'flex',
     flex: 1,
     backgroundColor: Themes.light.bg,
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 10,
+    paddingHorizontal: 20,
+    //padding: Platform.OS === 'ios' ? 20 : 0,
+    //paddingRight: Platform.OS === 'ios' ? 100 : 0,
   },
   navbar: {
-    flex: 1,
+    flex: Platform.OS === 'ios' ? 1 : 1.2,
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 60,
+    marginTop: 30,
   },
   navbarImage: {
     resizeMode: 'contain',
     flex: 1,
-    marginHorizontal: 20,
+    height: '50%',
   },
   navBarTitle: {
     flex: 4,
     fontFamily: 'Sydney-Bold',
     textAlign: 'center',
-    fontSize: 35,
+    fontSize: 32,
   },
   profiles: {
-    display: 'flex',
     flex: 8,
     alignItems: 'center',
     justifyContent: 'center',
@@ -97,12 +105,12 @@ const styles = StyleSheet.create({
     flex: 3,
     resizeMode: 'contain',
     width: undefined,
-    height: undefined,
     margin: 20,
     borderRadius: 8,
     aspectRatio: 1/1.1,
     overflow: 'hidden',
-    elevation: 8,
+    elevation: Platform.OS === 'android' ? 8 : 0,
+    marginBottom: Platform.OS === 'ios' ? 60 : 20,
   },
   audioShadow: {
     flex: 1,
@@ -112,20 +120,21 @@ const styles = StyleSheet.create({
     shadowOffset: Themes.light.shadows.shadowOffset,
     shadowRadius: Themes.light.shadows.shadowRadius,
     shadowOpacity: Themes.light.shadows.shadowOpacity,
+    width: undefined,
   },
   audioCard: {
     flex: 1,
     alignItems: 'flex-start',
     justifyContent: 'space-evenly',
-    borderColor: 'black',
-    borderWidth: 0,
-    margin: 40,
+    backgroundColor: Themes.light.bgSecondary,
+    marginHorizontal: 14,
+    marginBottom: Platform.OS === 'ios' ? 120 : 50,
+    marginTop: Platform.OS === 'ios' ? -40 : 0,
     borderRadius: 15,
     elevation: 8,
-    backgroundColor: Themes.light.bgSecondary,
   },
   audioText: {
-    fontSize: 18,
+    fontSize: 26,
     fontFamily: 'Sydney',
     fontWeight: '300',
     marginTop: 15,
@@ -135,22 +144,46 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-evenly',
-    overflow: 'hidden',
+    marginBottom: 10,
   },
   playImage: {
     flex: 1,
     resizeMode: 'contain',
     height: '60%',
+    marginLeft: 10,
   },
   audiowaveImage: {
     flex: 3,
     resizeMode: 'contain',
     height: '50%',
-    marginRight: 20,
+    marginHorizontal: 10,
+  },
+  profileNameView: {
+    position: 'absolute',
+    top: 25,
+    left: 35,
+    right: 0,
+    bottom: 0,
+    elevation: 10,
   },
   profileName: {
+    fontFamily: 'Sydney',
+    fontSize: 32,
+    color: Themes.light.textSecondary,
+  },
+  profileCaptionView: {
     position: 'absolute',
+    justifyContent: 'flex-end',
+    top: 0,
+    left: 35,
+    right: 0,
+    bottom: Platform.OS === 'ios' ? 75 : 30,
+    elevation: 10,
+  },
+  profileCaption: {
+    fontFamily: 'Sydney',
+    fontSize: 18,
+    color: Themes.light.textSecondary,
   },
   bottomButtons: {
     flex: 1,
